@@ -1,6 +1,11 @@
 ﻿namespace resilience;
 
-public class MyFunction
+public interface IMyFunction
+{
+	Task<bool> CreateMessage(string message);
+}
+
+public class MyFunction : IMyFunction
 {
 	private readonly ISomeUnreliableService _someUnreliableService;
 

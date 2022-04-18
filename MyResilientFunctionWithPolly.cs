@@ -3,12 +3,12 @@
 using Polly;
 using Polly.Retry;
 
-public class MyResilienceFunction
+public class MyResilientFunctionWithPolly : IMyFunction
 {
 	private readonly ISomeUnreliableService _someUnreliableService;
+	private const int MaxRetries = 4;
 	
-	// Constructor
-	public MyResilienceFunction(ISomeUnreliableService someUnreliableService)
+	public MyResilientFunctionWithPolly(ISomeUnreliableService someUnreliableService)
 	{
 		_someUnreliableService = someUnreliableService;
 	}
@@ -17,10 +17,11 @@ public class MyResilienceFunction
 	{
 		AsyncRetryPolicy policy = Policy
 			.Handle<HttpRequestException>()
-			.RetryAsync(4);
+			.RetryAsync(MaxRetries);
 
 		bool result = await policy.ExecuteAsync(async () =>
 		{
+			// Request the call to the service
 			HttpResponseMessage result = await _someUnreliableService.PostSomething(message);
 		
 			Console.WriteLine($"** Status: {result.StatusCode} - Message: {result.Content.ReadAsStringAsync().Result}");

@@ -2,12 +2,11 @@
 
 ISomeUnreliableService  someUnreliableService = new SomeUnreliableService();
 
-// MyFunction myFunction = new MyFunction(someUnreliableService);
-MyResilienceFunction myResilienceFunction = new MyResilienceFunction(someUnreliableService);
+IMyFunction myFunction = new MyFunction(someUnreliableService);
+// IMyFunction myFunction = new MyResilientFunction(someUnreliableService);
+// IMyFunction myFunction = new MyResilientFunctionWithPolly(someUnreliableService);
 
 while (true) // Simulate continuous function calls
 {
-	// await myFunction.CreateMessage($"Polly - {DateTime.UtcNow}");
-	
-	await myResilienceFunction.CreateMessage($"Polly - {DateTime.UtcNow}");
+	await myFunction.CreateMessage($"Polly - {DateTime.UtcNow}");
 }
