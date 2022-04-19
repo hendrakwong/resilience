@@ -2,12 +2,12 @@
 
 using System.Net;
 
-public interface ISomeUnreliableService
+public interface IUnreliableService
 {
 	Task<HttpResponseMessage> PostSomething(string someParam);
 }
 
-public class SomeUnreliableService : ISomeUnreliableService
+public class UnreliableService : IUnreliableService
 {
 	private const int InstabilityQuotient = 4;
 	
@@ -17,7 +17,7 @@ public class SomeUnreliableService : ISomeUnreliableService
 		await Task.Delay(1000);
 
 		// Log message when the method is being called 
-		Console.WriteLine($"SomeUnreliableService.PostSomething() method is called - Param: '{someParam}'");
+		Console.WriteLine($"** SomeUnreliableService.PostSomething() method is called - Param: '{someParam}'");
 
 		// Generate random exception to simulate the un-stability condition  
 		if (new Random().Next(InstabilityQuotient) == 1)

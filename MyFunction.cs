@@ -7,20 +7,20 @@ public interface IMyFunction
 
 public class MyFunction : IMyFunction
 {
-	private readonly ISomeUnreliableService _someUnreliableService;
+	private readonly IUnreliableService _unreliableService;
 
 	// Constructor
-	public MyFunction(ISomeUnreliableService someUnreliableService)
+	public MyFunction(IUnreliableService unreliableService)
 	{
-		_someUnreliableService = someUnreliableService;
+		_unreliableService = unreliableService;
 	}
 
 	public async Task<bool> CreateMessage(string message)
 	{
 		// Request the call to the service
-		HttpResponseMessage result = await _someUnreliableService.PostSomething(message);
+		HttpResponseMessage result = await _unreliableService.PostSomething(message);
 		
-		Console.WriteLine($"**  Status: {result.StatusCode} - Message: {result.Content.ReadAsStringAsync().Result}");
+		Console.WriteLine($"Status: {result.StatusCode} - Message: {result.Content.ReadAsStringAsync().Result}");
 
 		return true;
 	}
