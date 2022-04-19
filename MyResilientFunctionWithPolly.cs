@@ -57,7 +57,8 @@ public class MyResilientFunctionWithPolly : IMyFunction
 
 		AsyncPolicyWrap? retryWithBackOffAndOverallTimeOut = timeOutPolicy.WrapAsync(advancedWaitAndRetryPolicy);
 
-		bool result = await advancedWaitAndRetryPolicy.ExecuteAsync(async () =>
+		// Execution
+		bool result = await retryPolicy.ExecuteAsync(async () =>
 		{
 			// Request the call to the service
 			HttpResponseMessage result = await _unreliableService.PostSomething(message);

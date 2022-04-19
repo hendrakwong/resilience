@@ -14,7 +14,7 @@ public class MyResilientFunction : IMyFunction
 
 	public async Task<bool> CreateMessage(string message)
 	{
-		int retryCounter = MaxRetries;
+		int retryCounter = 1;
 		while (true)
 		{
 			try
@@ -26,10 +26,10 @@ public class MyResilientFunction : IMyFunction
 
 				break;
 			}
-			catch (HttpRequestException e)
+			catch
 			{
 				Console.WriteLine($"** Retry #{retryCounter}");
-				if (retryCounter-- == 0) throw;
+				if (retryCounter++ == MaxRetries) throw;
 			}
 		}
 		
